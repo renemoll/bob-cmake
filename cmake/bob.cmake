@@ -2,6 +2,8 @@
 # Meet Bob: my collection of build tools
 #
 
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
+
 #
 # Ensure an out of source build folder.
 #
@@ -25,16 +27,6 @@ ensure_out_of_source_build()
 #
 set(CMAKE_EXPORT_COMPILE_COMMANDS On)
 
-
-
-
-
-
-include(bob_compiler)
-
-
-
-
 #
 # Ensure a build configuration.
 #
@@ -45,7 +37,13 @@ endif()
 
 message(STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
-
+include(bob_compiler)
 
 include(bob_clang_tidy)
 include(bob_cppcheck)
+
+
+function(bob_enable_static_analyzers TARGET)
+	bob_configure_cppcheck(${TARGET})
+	bob_configure_clang_tidy(${TARGET})
+endfunction()
