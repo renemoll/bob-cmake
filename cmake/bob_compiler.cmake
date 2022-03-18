@@ -90,7 +90,7 @@ set(BOB_COMPILER_BEHAVIOUR_CLANG
 set(BOB_COMPILER_WARNINGS_MSVC
 	/permissive-										# Conform to the C++ standard.
 	/W4													# Enable almost all warnings.
-	/Wx													# Treat warnings as errors.
+	/WX													# Treat warnings as errors.
 	# MSVC syntax: w<level><warning code>
 	/w14062												# 'identifier' in a switch of enum 'enumeration' is not handled.
 	/w14242												# 'identfier': conversion from 'type1' to 'type1', possible loss of data.
