@@ -31,6 +31,7 @@ set(BOB_COMPILER_WARNINGS_GNU_CLANG
 	# Classes
 	$<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>		# Warn about base classes without virtual destructors.
 	$<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>		# Warn about classes which seemingly cannot be used.
+	$<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-override>		# Warn when a method overwriting a virtual method is not marked with override.
 	$<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>		# Warn when a derived function hides a virtual function of the base class.
 	# Misc
 	-Wshadow											# Warn about duplicated variable names.
@@ -40,9 +41,8 @@ set(BOB_COMPILER_WARNINGS_GNU_CLANG
 	-Wundef												# Warn when undefined macros are used (implicit conversion to 0.)
 	$<$<COMPILE_LANGUAGE:C>:-Wstrict-prototypes>		# Warn when a function declaration misses argument types.
 	-Wunused											# Warn about any unused parameter/function/variable/etc...
+	-Wmisleading-indentation							# Warn about indentation giving the impression of scope.
 	-Winline											# Warn when desired inlining is not possible.
-	-Wtrampolines										# Warn about code to jump to a function, requiring an executable stack.
-	-Warray-bounds=2									# Warns about invalid array indices.
 	# Strings related
 	-Wvla												# Warn about variable-length arrays being used.
 	-Wwrite-strings										# Warn when attempting to write to a string constant.
@@ -58,15 +58,18 @@ set(BOB_COMPILER_BEHAVIOUR_GNU_CLANG
 )
 
 set(BOB_COMPILER_WARNINGS_GNU
+	# (Type) conversion
 	-Warith-conversion									# Warn about implicit type conversions during arithmitic operations.
 	$<$<COMPILE_LANGUAGE:CXX>:-Wuseless-cast>			# Warn about casting to the same type.
-	$<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-override>		# Warn when a method overwriting a virtual method is not marked with override.
-	-Wduplicated-branches>								# Warn about identifcal branches in if-else expressions.
-	-Wduplicated-cond>									# Warn about duplicated conditions in if-else expressions.
-	-Wredundant-decls>									# Warn about multiple declarations within the same scope.
-	-Wlogical-op>										# Warn about potential errors with logical operations.
-	-Wmisleading-indentation>							# Warn about indentation giving the impression of scope.
-	-Wformat-truncation=2>								# Warn when the output of sprintf/... might be truncated.
+	# Misc
+	-Wduplicated-branches								# Warn about identifcal branches in if-else expressions.
+	-Wduplicated-cond									# Warn about duplicated conditions in if-else expressions.
+	-Wredundant-decls									# Warn about multiple declarations within the same scope.
+	-Wlogical-op										# Warn about potential errors with logical operations.
+	-Wtrampolines										# Warn about code to jump to a function, requiring an executable stack.
+	-Warray-bounds=2									# Warns about invalid array indices.
+	# Strings related
+	-Wformat-truncation=2								# Warn when the output of sprintf/... might be truncated.
 )
 
 set(BOB_COMPILER_BEHAVIOUR_GNU
@@ -75,8 +78,9 @@ set(BOB_COMPILER_BEHAVIOUR_GNU
 )
 
 set(BOB_COMPILER_WARNINGS_CLANG
-	-Wshadow-all											# Additional shadowing checks.
 	$<$<BOOL:${BOB_CLANG_WARN_EVERYTHING}>:-Weverything>	# Enable all diagnostic warnings.
+	# Misc
+	-Wshadow-all											# Additional shadowing checks.
 )
 
 set(BOB_COMPILER_BEHAVIOUR_CLANG
