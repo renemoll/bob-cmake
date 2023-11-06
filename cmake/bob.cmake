@@ -7,17 +7,17 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 #
 # Ensure an out of source build folder.
 #
-function(ensure_out_of_source_build)
-  get_filename_component(srcdir "${CMAKE_SOURCE_DIR}" REALPATH)
-  get_filename_component(bindir "${CMAKE_BINARY_DIR}" REALPATH)
 
-  if("${srcdir}" STREQUAL "${bindir}")
-	message(FATAL_ERROR "\n
-		In-source build detected!\
-		Generate an out of source build with:\
-		\
+function(ensure_out_of_source_build)
+	get_filename_component(srcdir "${CMAKE_SOURCE_DIR}" REALPATH)
+	get_filename_component(bindir "${CMAKE_BINARY_DIR}" REALPATH)
+
+	if("${srcdir}" STREQUAL "${bindir}")
+		message(FATAL_ERROR "[Bob] In-source build detected!\
+			Generate an out of source build with:\
+			\
 			cmake -S . -B build")
-  endif()
+	endif()
 endfunction()
 ensure_out_of_source_build()
 
@@ -25,11 +25,13 @@ ensure_out_of_source_build()
 # Generate compile_commands.json for Clang based tools.
 # Note: this does not require a clang based toolchain.
 #
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS On)
 
 #
 # Ensure a build configuration.
 #
+
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	message(STATUS "Defaulting build type to 'RelWithDebInfo'.")
 	set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Build configuration" FORCE)
@@ -37,13 +39,34 @@ endif()
 
 message(STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
+#
+# Generate a version header
+#
+# configure_file(cmake/version.h.in version.h)
+
+#
+# Project template
+#
+
 include(bob_compiler)
+include(bob_options)
+# include(bob_clang_tidy)
+# include(bob_cppcheck)
 
-include(bob_clang_tidy)
-include(bob_cppcheck)
+add_library(bob_interface INTERFACE)
+bob_configure_compiler_warnings(bob_interface)
+bob_configure_compiler_codegen(bob_interface)
+bob_configure_options(bob_interface)
+# bob_configure_cppcheck(bob_interface)
+# bob_configure_clang_tidy(bob_interface)
 
+#
+# Generate a option header
+#
+# configure_file(cmake/config_options.h.in config_options.h)
 
-function(bob_enable_static_analyzers TARGET)
-	bob_configure_cppcheck(${TARGET})
-	bob_configure_clang_tidy(${TARGET})
-endfunction()
+#
+# Helpers
+#
+
+include(bob_firmware_image)
