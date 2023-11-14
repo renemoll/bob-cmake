@@ -42,13 +42,13 @@ function(bob_firmware_image target)
 		TARGET ${target}
 		POST_BUILD
 		COMMAND ${TOOLCHAIN_SIZE} --format=sysv -x $<TARGET_FILE:${target}>
-				>${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_NAME:${target}>.ssz
+			>${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_NAME:${target}>.ssz
 	)
 
 	add_custom_command(
 		TARGET ${target}
 		POST_BUILD
 		COMMAND ${TOOLCHAIN_OBJDUMP} -d -S $<TARGET_FILE:${target}>
-				>${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_NAME:${target}>.dasm
+			>${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_NAME:${target}>.dasm
 	)
 endfunction()

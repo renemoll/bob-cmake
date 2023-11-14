@@ -19,4 +19,4 @@ add_link_options(
 	LINKER:--no-warn-rwx-segment
 )
 
-include(${CMAKE_CURRENT_LIST_DIR}/arm-none-eabi-gcc.cmake)
+include("${CMAKE_CURRENT_LIST_DIR}/arm-none-eabi-gcc.cmake")
