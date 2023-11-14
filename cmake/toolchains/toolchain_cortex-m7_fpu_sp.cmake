@@ -11,4 +11,4 @@ set(ARM_API
 	-mabi=aapcs						# Use 'ARM Architecture Procedure Calling Standard' ABI.
 )
 
-include(${CMAKE_CURRENT_LIST_DIR}/arm_cortex-m7.cmake)
+include("${CMAKE_CURRENT_LIST_DIR}/arm_cortex-m7.cmake")

@@ -15,6 +15,6 @@ function(bob_configure_options target)
 				$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<BOOL:${BOB_USE_RTTI}>>>:-fno-rtti>
 		)
 	else()
-		message(FATAL_ERROR "[Bob] unsupported compiler")
+		bob_error("unsupported compiler")
 	endif()
 endfunction()
