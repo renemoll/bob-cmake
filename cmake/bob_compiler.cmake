@@ -31,6 +31,7 @@ function(bob_configure_compiler_warnings TARGET)
 		-Wcast-qual											# Warn when casting removes a type qualifier from a pointer.
 		-Wcast-align										# Warn when casting a pointers changes the alignment of the pointee.
 		$<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>		# Warn about casts to function pointers.
+		-Wstrict-overflow=2									# Warn about optimizations where signed overflow is assumed not to occour.
 		# Classes
 		$<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>		# Warn about base classes without virtual destructors.
 		$<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>		# Warn about classes which seemingly cannot be used.
@@ -59,6 +60,7 @@ function(bob_configure_compiler_warnings TARGET)
 		-Warith-conversion									# Warn about implicit type conversions during arithmitic operations.
 		$<$<COMPILE_LANGUAGE:CXX>:-Wuseless-cast>			# Warn about casting to the same type.
 		-Wcast-align=strict
+		-Wshift-overflow=2									# Warn about left shiting a 1 into the sign bit.
 		# Misc
 		-Wduplicated-branches								# Warn about identifcal branches in if-else expressions.
 		-Wduplicated-cond									# Warn about duplicated conditions in if-else expressions.
@@ -67,6 +69,7 @@ function(bob_configure_compiler_warnings TARGET)
 		-Wtrampolines										# Warn about code to jump to a function, requiring an executable stack.
 		-Warray-bounds=2									# Warns about invalid array indices.
 		-Wstrict-null-sentinel								# Warn about the use of an uncasted NULL as sentinel.
+		-Wtrivial-auto-var-init								# Warn about automatic variables which might be unintialized.
 		# Strings related
 		-Wformat-truncation=2								# Warn when the output of sprintf/... might be truncated.
 	)
@@ -75,8 +78,15 @@ function(bob_configure_compiler_warnings TARGET)
 	set(BOB_COMPILER_WARNINGS_CLANG
 		-fcolor-diagnostics										# Generate colourized diagnostic warnings.
 		$<$<BOOL:${BOB_CLANG_WARN_EVERYTHING}>:-Weverything>	# Enable all diagnostic warnings.
+		# (Type) conversion
+		-Wshift-sign-overflow									# Warn about left shiting a 1 into the sign bit.
+		-Wzero-as-null-pointer-constant							# Warn about using 0 as a null pointer.
 		# Misc
 		-Wshadow-all											# Additional shadowing checks.
+		-Wconditional-uninitialized								# Warn about variables which might be uinitialized.
+		-Wloop-analysis											# Warn about loop varialbes being manipulated/ignored/.. inside the loop
+		# Strings related
+		-Wformat-type-confusion									# Warn when an argument does match the format specified type.
 	)
 
 	set(BOB_COMPILER_WARNINGS_MSVC
@@ -127,6 +137,7 @@ function(bob_configure_compiler_codegen TARGET)
 		-fwrapv														# Assume signed arithmatic may wrap around.
 		$<$<COMPILE_LANGUAGE:ASM>:-x assembler-with-cpp>			# Compile ASM as C++
 		$<$<COMPILE_LANGUAGE:CXX>:-fdiagnostics-show-template-tree>	# Print template structures in a tree structure.
+		-ftrivial-auto-var-init=zero								# Ensure automatic variables are always initialized.
 	)
 
 	set(BOB_COMPILER_BEHAVIOUR_GNU
