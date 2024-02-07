@@ -9,18 +9,10 @@ set(CMAKE_SYSTEM_PROCESSOR 	arm)
 # Find my compiler
 #
 
-find_program(CROSS_GCC_PATH "arm-none-eabi-gcc"
-	PATH
-		"${CMAKE_SOURCE_DIR}/toolchains/src/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi/bin"
-		"/opt/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi/bin"
-	NO_DEFAULT_PATH
-)
-get_filename_component(TOOLCHAIN_PATH ${CROSS_GCC_PATH} PATH)
-
-set(CMAKE_C_COMPILER   "${TOOLCHAIN_PATH}/arm-none-eabi-gcc")
-set(CMAKE_CXX_COMPILER "${TOOLCHAIN_PATH}/arm-none-eabi-g++")
-set(TOOLCHAIN_SIZE     "${TOOLCHAIN_PATH}/arm-none-eabi-size"    CACHE STRING "arm-none-eabi-size")
-set(TOOLCHAIN_OBJDUMP  "${TOOLCHAIN_PATH}/arm-none-eabi-objdump" CACHE STRING "arm-none-eabi-objdump")
+set(CMAKE_C_COMPILER   "arm-none-eabi-gcc")
+set(CMAKE_CXX_COMPILER "arm-none-eabi-g++")
+set(TOOLCHAIN_SIZE     "arm-none-eabi-size"    CACHE STRING "arm-none-eabi-size")
+set(TOOLCHAIN_OBJDUMP  "arm-none-eabi-objdump" CACHE STRING "arm-none-eabi-objdump")
 
 #
 # CMAKE configuration
