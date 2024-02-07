@@ -47,7 +47,9 @@ bob_info("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 #
 # Generate a version header
 #
-# configure_file(cmake/version.h.in version.h)
+# Todo: can I generalize this?
+#
+configure_file(cmake/version.h.in version.h)
 
 #
 # Project template
@@ -68,7 +70,9 @@ bob_configure_options(bob_interface)
 #
 # Generate a option header
 #
-# configure_file(cmake/config_options.h.in config_options.h)
+# Todo: this could be too projct specific...
+#
+configure_file(cmake/config_options.h.in config_options.h)
 
 #
 # Helpers
