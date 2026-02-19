@@ -1,24 +1,40 @@
 #
-# Cross-compiler configuration for ARM Cortex-M7
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# SPDX-FileCopyrightText: 2025 René Moll
+# SPDX-License-Identifier: MPL-2.0
 #
 
-set(CMAKE_SYSTEM_NAME 		Generic)
-set(CMAKE_SYSTEM_PROCESSOR 	arm)
+#
+# Cross-compiler configuration for ARM Cortex-M
+#
+
+set(CMAKE_SYSTEM_NAME 		"Generic")
+set(CMAKE_SYSTEM_PROCESSOR 	"arm")
+
+set(CMAKE_ASM_COMPILER_ID "GNU")
+set(CMAKE_C_COMPILER_ID   "GNU")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 #
 # Find my compiler
 #
+set(TOOLCHAIN_PREFIX   "arm-none-eabi-")
 
-set(CMAKE_C_COMPILER   "arm-none-eabi-gcc")
-set(CMAKE_CXX_COMPILER "arm-none-eabi-g++")
-set(TOOLCHAIN_SIZE     "arm-none-eabi-size"    CACHE STRING "arm-none-eabi-size")
-set(TOOLCHAIN_OBJDUMP  "arm-none-eabi-objdump" CACHE STRING "arm-none-eabi-objdump")
+set(CMAKE_C_COMPILER   "${TOOLCHAIN_PREFIX}gcc")
+set(CMAKE_ASM_COMPILER "${CMAKE_C_COMPILER}")
+set(CMAKE_CXX_COMPILER "${TOOLCHAIN_PREFIX}g++")
+
+set(TOOLCHAIN_SIZE     "${TOOLCHAIN_PREFIX}size")
+set(TOOLCHAIN_OBJDUMP  "${TOOLCHAIN_PREFIX}objdump")
 
 #
 # CMAKE configuration
 #
 # These variables change the behaviour of where various `find_*` commands search:
-# - CMAKE_FIND_ROOT_PATH specified where the target environment can be found. 
+# - CMAKE_FIND_ROOT_PATH specified where the target environment can be found.
 # - CMAKE_FIND_ROOT_PATH_MODE_PROGRAM influences `find_program`.
 # - CMAKE_FIND_ROOT_PATH_MODE_LIBRARY influences `find_library`.
 # - CMAKE_FIND_ROOT_PATH_MODE_INCLUDE influences `find_path` and `find_file`.
