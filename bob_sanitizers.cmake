@@ -37,19 +37,19 @@ function(bob_configure_sanitizers target)
 	#
 	set(sanitizers "")
 
-	if (BOB_SANITIZE_ADDRESS)
+	if(BOB_SANITIZE_ADDRESS)
 		list(APPEND sanitizers "address")
 	endif()
 
-	if (BOB_SANITIZE_LEAK)
+	if(BOB_SANITIZE_LEAK)
 		list(APPEND sanitizers "leak")
 	endif()
 
-	if (BOB_SANITIZE_UNDEFINED)
+	if(BOB_SANITIZE_UNDEFINED)
 		list(APPEND sanitizers "undefined")
 	endif()
 
-	if (BOB_SANITIZE_THREAD)
+	if(BOB_SANITIZE_THREAD)
 		if("address" IN_LIST sanitizers OR "leak" IN_LIST sanitizers)
 			bob_error("ThreadSanitizer cannot be combined with AddressSanitizer or LeakSanitizer")
 		else()
@@ -57,20 +57,20 @@ function(bob_configure_sanitizers target)
 		endif()
 	endif()
 
-	# if (BOB_SANITIZE_MEMORY)
-	# 	if (BOB_COMPILER_CLANG)
+	# if(BOB_SANITIZE_MEMORY)
+	# 	if(BOB_COMPILER_CLANG)
 	# 		list(APPEND sanitizers "memory")
 	# 	else()
 	# 		bob_info("MemorySanitizer is only supported by Clang")
 	# 	endif()
 	# endif()
 
-	if (sanitizers)
+	if(sanitizers)
 		#
 		# Update compiler options
 		#
 
-		if (NOT BOB_COVERAGE)
+		if(NOT BOB_COVERAGE)
 			add_compile_options(
 				-O1						# Recommended for "reasonable performance"
 				-fno-omit-frame-pointer # For better stack traces

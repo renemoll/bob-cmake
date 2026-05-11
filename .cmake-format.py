@@ -20,40 +20,26 @@ with section("parse"):
 # Options affecting formatting.
 # -----------------------------
 with section("format"):
-
-  # Disable formatting entirely, making cmake-format a no-op
   disable = False
+  line_width = 120
 
-  # How wide to allow formatted cmake files
-  line_width = 100
-
-  # How many spaces to tab for indent
+  # Use tabs
   tab_size = 2
-
-  # If true, lines are indented using tab characters (utf-8 0x09) instead of
-  # <tab_size> space characters (utf-8 0x20). In cases where the layout would
-  # require a fractional tab character, the behavior of the  fractional
-  # indentation is governed by <fractional_tab_policy>
   use_tabchars = True
-
-  # If <use_tabchars> is True, then the value of this variable indicates how
-  # fractional indentions are handled during whitespace replacement. If set to
-  # 'use-space', fractional indentation is left as spaces (utf-8 0x20). If set
-  # to `round-up` fractional indentation is replaced with a single tab character
-  # (utf-8 0x09) effectively shifting the column to the next tabstop
   fractional_tab_policy = 'round-up'
 
-  # If an argument group contains more than this many sub-groups (parg or kwarg
-  # groups) then force it to a vertical layout.
-  max_subgroups_hwrap = 2
+  command_case = 'canonical'
+  keyword_case = 'upper'
 
-  # If a positional argument group contains more than this many arguments, then
-  # force it to a vertical layout.
-  max_pargs_hwrap = 6
+  # Don't sort argument lists
+  enable_sort = False
+  autosort = False
 
-  # If a cmdline positional group consumes more than this many lines without
-  # nesting, then invalidate the layout (and nest)
-  max_rows_cmdline = 2
+  # Prefer multiline argument blocks (matches your add_custom_command style)
+  max_subgroups_hwrap = 1
+  max_pargs_hwrap = 1
+  max_lines_hwrap = 1
+  max_rows_cmdline = 1
 
   # If true, separate flow control names from their parentheses with a space
   separate_ctrl_name_with_space = False
@@ -80,29 +66,11 @@ with section("format"):
   # layouts.
   max_prefix_chars = 10
 
-  # If a candidate layout is wrapped horizontally but it exceeds this many
-  # lines, then reject the layout.
-  max_lines_hwrap = 2
-
   # What style line endings to use in the output.
   line_ending = 'unix'
 
-  # Format command names consistently as 'lower' or 'upper' case
-  command_case = 'canonical'
-
-  # Format keywords consistently as 'lower' or 'upper' case
-  keyword_case = 'unchanged'
-
   # A list of command names which should always be wrapped
   always_wrap = []
-
-  # If true, the argument lists which are known to be sortable will be sorted
-  # lexicographicall
-  enable_sort = True
-
-  # If true, the parsers may infer whether or not an argument list is sortable
-  # (without annotation).
-  autosort = False
 
   # By default, if cmake-format cannot successfully fit everything into the
   # desired linewidth it will apply the last, most aggressive attempt that it
@@ -118,6 +86,9 @@ with section("format"):
 # Options affecting comment reflow and formatting.
 # ------------------------------------------------
 with section("markup"):
+  # Don't reflow comment
+  enable_markup = True
+  literal_comment_pattern = r".*"
 
   # What character to use for bulleted lists
   bullet_char = '*'
@@ -129,10 +100,6 @@ with section("markup"):
   # listfile. Use this to preserve formatting of your copyright/license
   # statements.
   first_comment_is_literal = False
-
-  # If comment markup is enabled, don't reflow any comment block which matches
-  # this (regex) pattern. Default is `None` (disabled).
-  literal_comment_pattern = None
 
   # Regular expression to match preformat fences in comments default=
   # ``r'^\s*([`~]{3}[`~]*)(.*)$'``
@@ -154,9 +121,7 @@ with section("markup"):
   # If true, then insert a space between the first hash char and remaining hash
   # chars in a hash ruler, and normalize its length to fill the column
   canonicalize_hashrulers = True
-
-  # enable comment markup parsing and reflow
-  enable_markup = True
+  
 
 # ----------------------------
 # Options affecting the linter

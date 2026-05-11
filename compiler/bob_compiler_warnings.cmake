@@ -13,7 +13,7 @@ include(CheckCompilerFlag)
 # Compiler configuration
 #
 
-if (BOB_COMPILER_CLANG)
+if(BOB_COMPILER_CLANG)
 	option(BOB_CLANG_WARN_EVERYTHING "Enable `-Weverything` for Clang" Off)
 endif()
 
@@ -29,11 +29,11 @@ function(filter_compiler_flags language flags output_variable)
 	get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 	set(result "")
 
-	if (${language} IN_LIST enabled_languages)
+	if(${language} IN_LIST enabled_languages)
 		foreach(flag IN LISTS flags)
 			string(REPLACE - _ flag_available ${flag})
 			check_compiler_flag(${language} ${flag} ${flag_available})
-			if (${flag_available})
+			if(${flag_available})
 				list(APPEND result ${flag})
 			endif()
 		endforeach()
@@ -53,7 +53,7 @@ function(bob_configure_compiler_warnings target)
 	set(c_warnings "")
 	set(cxx_warnings "")
 
-	if (BOB_COMPILER_CLANG OR BOB_COMPILER_GCC)
+	if(BOB_COMPILER_CLANG OR BOB_COMPILER_GCC)
 		list(APPEND common_warnings
 			# General
 			-Wall								# Enable warnings for common coding mistakes or potential errors.
@@ -102,7 +102,7 @@ function(bob_configure_compiler_warnings target)
 		)
 	endif()
 
-	if (BOB_COMPILER_GCC)
+	if(BOB_COMPILER_GCC)
 		list(APPEND common_warnings
 			# (Type) conversion
 			-Warith-conversion					# Warn about implicit type conversions during arithmetic operations.
@@ -125,7 +125,7 @@ function(bob_configure_compiler_warnings target)
 			# (Type) conversion
 			-Wuseless-cast						# Warn about casting to the same type.
 		)
-	elseif (BOB_COMPILER_CLANG)
+	elseif(BOB_COMPILER_CLANG)
 		list(APPEND common_warnings
 			# (Type) conversion
 			-Wshift-sign-overflow				# Warn about left shifting a 1 into the sign bit.
@@ -138,7 +138,7 @@ function(bob_configure_compiler_warnings target)
 			-Wformat-type-confusion				# Warn when an argument does match the format specified type.
 		)
 
-		if (BOB_CLANG_WARN_EVERYTHING)
+		if(BOB_CLANG_WARN_EVERYTHING)
 			list(APPEND common_warnings
 				-Weverything					# Enable all diagnostic warnings.
 			)

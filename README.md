@@ -11,3 +11,12 @@ Status:
  - Compiler support: GCC and Clang;
  - Target support: PC, ARM Cortex-M4/7.
  - Supports for building with sanitizers and code coverage generation.
+
+
+## Development
+
+This project uses `cmake-lint` for linting, run:
+
+```bash
+cmake-lint */*.cmake *.cmake
+```

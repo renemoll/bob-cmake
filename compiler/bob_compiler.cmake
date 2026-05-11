@@ -26,7 +26,7 @@ endif()
 #
 
 # Generate colourized diagnostic warnings.
-if (BOB_COMPILER_CLANG)
+if(BOB_COMPILER_CLANG)
 	add_compile_options(
 		-fcolor-diagnostics
 	)

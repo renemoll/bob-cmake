@@ -17,8 +17,8 @@
 
 option(BOB_COVERAGE "Enable code coverage target creation" Off)
 
-if (BOB_COVERAGE)
-	if (BOB_COMPILER_CLANG)
+if(BOB_COVERAGE)
+	if(BOB_COMPILER_CLANG)
 		#
 		# Following the instructions from: https://clang.llvm.org/docs/SourceBasedCodeCoverage.html
 		#
@@ -40,7 +40,7 @@ if (BOB_COVERAGE)
 		add_link_options(
 			-fprofile-instr-generate	# Instrument code to collect execution counts (default.profraw)
 		)
-	elseif (BOB_COMPILER_GCC)
+	elseif(BOB_COMPILER_GCC)
 		#
 		# Based on: https://gcovr.com/en/stable/guide/compiling.html
 		#
@@ -50,11 +50,11 @@ if (BOB_COVERAGE)
 		find_program(GCOVR_EXE gcovr)
 
 		add_compile_options(
-			-O0												# Disable optimizations when generating test-coverage
-			--coverage										# Synonym for -fprofile-arcs -ftest-coverage & -lgcov
-			# -fprofile-arcs								# Instrument code to produce gcov data files (*.gcda)
-			# -ftest-coverage								# Produce gcov notes files (*.gcno)
-			$<$<CXX_COMPILER_ID:GNU>:-fprofile-abs-path>	# Use absolute instead of relative paths
+			-O0					# Disable optimizations when generating test-coverage
+			--coverage			# Synonym for -fprofile-arcs -ftest-coverage & -lgcov
+			# -fprofile-arcs	# Instrument code to produce gcov data files (*.gcda)
+			# -ftest-coverage	# Produce gcov notes files (*.gcno)
+			-fprofile-abs-path	# Use absolute instead of relative paths
 		)
 		add_link_options(
 			--coverage
@@ -72,7 +72,7 @@ endif()
 #   RUNNER: executable target to run the tests
 #
 function(bob_create_coverage_report)
-	if (NOT BOB_COVERAGE)
+	if(NOT BOB_COVERAGE)
 		return()
 	endif()
 
@@ -84,9 +84,8 @@ function(bob_create_coverage_report)
 	set(output_folder "${PROJECT_BINARY_DIR}/coverage_${arg_NAME}")
 	bob_info("generating coverage report in: ${output_folder}")
 
-	if (BOB_COMPILER_CLANG)
-		add_custom_target(
-			${arg_NAME}
+	if(BOB_COMPILER_CLANG)
+		add_custom_target(${arg_NAME}
 			COMMAND ${CMAKE_COMMAND} -E env LLVM_PROFILE_FILE="${arg_NAME}.profraw"
 					$<TARGET_FILE:${arg_RUNNER}>
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${output_folder}
@@ -109,9 +108,8 @@ function(bob_create_coverage_report)
 			DEPENDS ${arg_RUNNER}
 			COMMENT "Generating coverage report for ${arg_RUNNER}"
 		)
-	elseif (BOB_COMPILER_GCC)
-		add_custom_target(
-			${arg_NAME}
+	elseif(BOB_COMPILER_GCC)
+		add_custom_target(${arg_NAME}
 			COMMAND ${arg_RUNNER}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${output_folder}
 			COMMAND ${GCOVR_EXE} -r ${PROJECT_SOURCE_DIR}
