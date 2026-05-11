@@ -17,7 +17,7 @@ if(BOB_COMPILER_CLANG)
 endif()
 
 #
-# Helpers
+# Includes
 #
 
 include(CheckCompilerFlag)

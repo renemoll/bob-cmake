@@ -55,21 +55,17 @@ include(bob_compiler_warnings)
 #   ENABLE_STRICT_WARNINGS: Enable strict compiler warnings for this target.
 #
 function(bob_configure_compiler TARGET)
-    set(parse_options)
-    set(parse_one_value_options
-        ENABLE_STRICT_WARNINGS
-    )
-    set(parse_multi_value_options)
-    cmake_parse_arguments(PARSE_ARGV 0 arg
-        "${parse_options}" "${parse_one_value_options}" "${parse_multi_value_options}"
-    )
+	set(parse_options)
+	set(parse_one_value_options
+		ENABLE_STRICT_WARNINGS
+	)
+	set(parse_multi_value_options)
+	cmake_parse_arguments(PARSE_ARGV 1 arg
+		"${parse_options}" "${parse_one_value_options}" "${parse_multi_value_options}"
+	)
 
-	set(ENABLE_STRICT_WARNINGS ${BOB_STRICT_COMPILER_WARNINGS})
-    if (DEFINED arg_ENABLE_STRICT_WARNINGS)
-        set(ENABLE_STRICT_WARNINGS ${arg_ENABLE_STRICT_WARNINGS})
-    endif()
-	bob_debug("ENABLE_STRICT_WARNINGS: ${ENABLE_STRICT_WARNINGS}")
-	if (ENABLE_STRICT_WARNINGS)
-		bob_configure_compiler_warnings(${target})
+	bob_debug("ENABLE_STRICT_WARNINGS: ${arg_ENABLE_STRICT_WARNINGS}")
+	if (arg_ENABLE_STRICT_WARNINGS)
+		bob_configure_compiler_warnings(${TARGET})
 	endif()
 endfunction()
