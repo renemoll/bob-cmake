@@ -43,7 +43,9 @@ function(filter_compiler_flags language flags output_variable)
 endfunction()
 
 #
-# Apply compiler warnings to the given `target`.
+# bob_configure_compiler_warnings(<target>)
+#
+# Apply compiler warnings to the given `<target>`.
 #
 # Args:
 #   target: The target to apply the compiler warnings to.
