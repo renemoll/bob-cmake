@@ -39,7 +39,37 @@ else()
 endif()
 
 #
-# Compiler warnings
+# Includes
 #
 
 include(bob_compiler_warnings)
+
+#
+# bob_configure_compiler(<TARGET>
+#     [ENABLE_STRICT_WARNINGS <ON|OFF>])
+#
+# Configure the compiler for the given `<TARGET>`.
+#
+# Args:
+#   TARGET: The target to configure the compiler for.
+#   ENABLE_STRICT_WARNINGS: Enable strict compiler warnings for this target.
+#
+function(bob_configure_compiler TARGET)
+    set(parse_options)
+    set(parse_one_value_options
+        ENABLE_STRICT_WARNINGS
+    )
+    set(parse_multi_value_options)
+    cmake_parse_arguments(PARSE_ARGV 0 arg
+        "${parse_options}" "${parse_one_value_options}" "${parse_multi_value_options}"
+    )
+
+	set(ENABLE_STRICT_WARNINGS ${BOB_STRICT_COMPILER_WARNINGS})
+    if (DEFINED arg_ENABLE_STRICT_WARNINGS)
+        set(ENABLE_STRICT_WARNINGS ${arg_ENABLE_STRICT_WARNINGS})
+    endif()
+	bob_debug("ENABLE_STRICT_WARNINGS: ${ENABLE_STRICT_WARNINGS}")
+	if (ENABLE_STRICT_WARNINGS)
+		bob_configure_compiler_warnings(${target})
+	endif()
+endfunction()

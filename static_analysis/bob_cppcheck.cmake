@@ -14,12 +14,12 @@
 option(BOB_CPPCHECK "Enable `cppcheck`" On)
 
 #
-# bob_configure_cppcheck(<target>)
+# bob_configure_cppcheck(<TARGET>)
 #
-# Enable and configure `cppcheck` for the given `<target>`.
+# Enable and configure `cppcheck` for the given `<TARGET>`.
 #
 # Args:
-#   target: The target to run `cppcheck` on.
+#   TARGET: The target to run `cppcheck` on.
 #
 function(bob_configure_cppcheck TARGET)
 	find_program(CPPCHECK_EXE NAMES cppcheck)

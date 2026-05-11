@@ -14,12 +14,12 @@
 option(BOB_CLANG_TIDY "Enable `clang-tidy`" On)
 
 #
-# bob_configure_clang_tidy(<target>)
+# bob_configure_clang_tidy(<TARGET>)
 #
-# Enable and configure `clang-tidy` for the given `<target>`.
+# Enable and configure `clang-tidy` for the given `<TARGET>`.
 #
 # Args:
-#   target: The target to run `clang-tidy` on.
+#   TARGET: The target to run `clang-tidy` on.
 #
 function(bob_configure_clang_tidy TARGET)
 	if (BOB_COVERAGE AND BOB_COMPILER_GCC)
