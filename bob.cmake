@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 # Options
 #
 
-option(BOB_VERBOSE "Enable verbose output" Off)
+option(BOB_VERBOSE "Enable verbose output" On)
 
 #
 # bob_debug(<MESSAGE>)
@@ -49,7 +49,9 @@ function(bob_error)
 endfunction()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/compiler")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/runtime_analysis")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/static_analysis")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/tools")
 
 #
 # Ensure an out of source build folder.
@@ -98,11 +100,9 @@ configure_file(${BOB_USER_VERSION_HEADER} version.h ESCAPE_QUOTES)
 #
 
 include(bob_compiler)
+include(bob_runtime_analysis)
 include(bob_static_analysis)
-# include(bob_coverage)
-# include(bob_sanitizers)
-# include(bob_tools)
-# include(bob_firmware_image)
+include(bob_tools)
 
 #
 # bob_configure_target(<TARGET>
@@ -118,23 +118,51 @@ include(bob_static_analysis)
 #   ENABLE_CLANG_TIDY: Enable `clang-tidy` for this target (if `BOB_CLANG_TIDY` is enabled).
 #   ENABLE_CPPCHECK: Enable `cppcheck` for this target (if `BOB_CPPCHECK` is enabled).
 #
+# Todo:
+# - default values for release and development builds
+#
 function(bob_configure_target TARGET)
-	set(parse_options)
-	set(parse_one_value_options
+	set(PARSE_OPTIONS)
+	set(PARSE_ONE_VALUE_OPTIONS
 		# Compiler options
 		ENABLE_STRICT_WARNINGS
+		# Runtime analysis options
+		ENABLE_ADDRESS_SANITIZER
+		ENABLE_LEAK_SANITIZER
+		ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER
+		ENABLE_THREAD_SANITIZER
 		# Static analysis options
 		ENABLE_CLANG_TIDY
 		ENABLE_CPPCHECK
 	)
-	set(parse_multi_value_options)
+	set(PARSE_MULTI_VALUE_OPTIONS)
 	cmake_parse_arguments(PARSE_ARGV 1 arg
-		"${parse_options}" "${parse_one_value_options}" "${parse_multi_value_options}"
+		"${PARSE_OPTIONS}" "${PARSE_ONE_VALUE_OPTIONS}" "${PARSE_MULTI_VALUE_OPTIONS}"
 	)
 
 	set(ENABLE_STRICT_WARNINGS "${BOB_STRICT_COMPILER_WARNINGS}")
 	if(DEFINED arg_ENABLE_STRICT_WARNINGS)
 		set(ENABLE_STRICT_WARNINGS "${arg_ENABLE_STRICT_WARNINGS}")
+	endif()
+
+	set(ENABLE_ADDRESS_SANITIZER "${BOB_ADDRESS_SANITIZER}")
+	if(DEFINED arg_ENABLE_ADDRESS_SANITIZER)
+		set(ENABLE_ADDRESS_SANITIZER "${arg_ENABLE_ADDRESS_SANITIZER}")
+	endif()
+
+	set(ENABLE_LEAK_SANITIZER "${BOB_LEAK_SANITIZER}")
+	if(DEFINED arg_ENABLE_LEAK_SANITIZER)
+		set(ENABLE_LEAK_SANITIZER "${arg_ENABLE_LEAK_SANITIZER}")
+	endif()
+
+	set(ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER "${BOB_UNDEFINED_BEHAVIOUR_SANITIZER}")
+	if(DEFINED arg_ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER)
+		set(ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER "${arg_ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER}")
+	endif()
+
+	set(ENABLE_THREAD_SANITIZER "${BOB_THREAD_SANITIZER}")
+	if(DEFINED arg_ENABLE_THREAD_SANITIZER)
+		set(ENABLE_THREAD_SANITIZER "${arg_ENABLE_THREAD_SANITIZER}")
 	endif()
 
 	set(ENABLE_CLANG_TIDY "${BOB_CLANG_TIDY}")
@@ -148,14 +176,22 @@ function(bob_configure_target TARGET)
 	endif()
 
 	bob_configure_compiler(
-		"${TARGET}"
-		ENABLE_STRICT_WARNINGS "${ENABLE_STRICT_WARNINGS}"
+		${TARGET}
+		ENABLE_STRICT_WARNINGS ${ENABLE_STRICT_WARNINGS}
 	)
 
 	bob_configure_static_analysis(
-		"${TARGET}"
-		ENABLE_CLANG_TIDY "${ENABLE_CLANG_TIDY}"
-		ENABLE_CPPCHECK "${ENABLE_CPPCHECK}"
+		${TARGET}
+		ENABLE_CLANG_TIDY ${ENABLE_CLANG_TIDY}
+		ENABLE_CPPCHECK ${ENABLE_CPPCHECK}
+	)
+
+	bob_configure_runtime_analysis(
+		${TARGET}
+		ENABLE_ADDRESS_SANITIZER ${ENABLE_ADDRESS_SANITIZER}
+		ENABLE_LEAK_SANITIZER ${ENABLE_LEAK_SANITIZER}
+		ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER ${ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER}
+		ENABLE_THREAD_SANITIZER ${ENABLE_THREAD_SANITIZER}
 	)
 endfunction()
 

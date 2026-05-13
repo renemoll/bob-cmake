@@ -23,18 +23,18 @@ include(bob_cppcheck)
 #
 # Args:
 #   TARGET: The target to run static analysis on.
-#   ENABLE_CLANG_TIDY: Enable `clang-tidy` for this target (if `BOB_CLANG_TIDY` is enabled).
-#   ENABLE_CPPCHECK: Enable `cppcheck` for this target (if `BOB_CPPCHECK` is enabled).
+#   ENABLE_CLANG_TIDY: Enable `clang-tidy` for this target.
+#   ENABLE_CPPCHECK: Enable `cppcheck` for this target.
 #
 function(bob_configure_static_analysis TARGET)
-	set(parse_options)
-	set(parse_one_value_options
+	set(PARSE_OPTIONS)
+	set(PARSE_ONE_VALUE_OPTIONS
 		ENABLE_CLANG_TIDY
 		ENABLE_CPPCHECK
 	)
-	set(parse_multi_value_options)
+	set(PARSE_MULTI_VALUE_OPTIONS)
 	cmake_parse_arguments(PARSE_ARGV 1 arg
-		"${parse_options}" "${parse_one_value_options}" "${parse_multi_value_options}"
+		"${PARSE_OPTIONS}" "${PARSE_ONE_VALUE_OPTIONS}" "${PARSE_MULTI_VALUE_OPTIONS}"
 	)
 
 	bob_debug("ENABLE_CLANG_TIDY: ${arg_ENABLE_CLANG_TIDY}")

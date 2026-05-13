@@ -43,6 +43,7 @@ endif()
 #
 
 include(bob_compiler_warnings)
+include(bob_firmware_image)
 
 #
 # bob_configure_compiler(<TARGET>
@@ -55,13 +56,13 @@ include(bob_compiler_warnings)
 #   ENABLE_STRICT_WARNINGS: Enable strict compiler warnings for this target.
 #
 function(bob_configure_compiler TARGET)
-	set(parse_options)
-	set(parse_one_value_options
+	set(PARSE_OPTIONS)
+	set(PARSE_ONE_VALUE_OPTIONS
 		ENABLE_STRICT_WARNINGS
 	)
-	set(parse_multi_value_options)
+	set(PARSE_MULTI_VALUE_OPTIONS)
 	cmake_parse_arguments(PARSE_ARGV 1 arg
-		"${parse_options}" "${parse_one_value_options}" "${parse_multi_value_options}"
+		"${PARSE_OPTIONS}" "${PARSE_ONE_VALUE_OPTIONS}" "${PARSE_MULTI_VALUE_OPTIONS}"
 	)
 
 	bob_debug("ENABLE_STRICT_WARNINGS: ${arg_ENABLE_STRICT_WARNINGS}")

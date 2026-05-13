@@ -45,5 +45,13 @@ function(bob_configure_cppcheck TARGET)
 				C_CPPCHECK "${CPPCHECK_EXE};--std=c11;${CPPCHECK_OPTIONS}"
 				CXX_CPPCHECK "${CPPCHECK_EXE};--std=c++20;${CPPCHECK_OPTIONS}"
 		)
+
+		# TODO: specify --std?
+		# add_custom_target(${TARGET}_cppcheck
+		# 	COMMAND ${CPPCHECK_EXE} ${CPPCHECK_OPTIONS} $<TARGET_PROPERTY:${TARGET},SOURCES>
+		# 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		# 	COMMENT "Running cppcheck for target '${TARGET}'"
+		# 	VERBATIM
+		# )
 	endif()
 endfunction()

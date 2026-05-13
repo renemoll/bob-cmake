@@ -33,10 +33,10 @@ include(CheckCompilerFlag)
 #   OUTPUT: The variable to store the supported flags in.
 #
 function(_filter_compiler_flags LANG FLAGS OUTPUT)
-	get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+	get_property(ENABLED_LANGUAGES GLOBAL PROPERTY ENABLED_LANGUAGES)
 	set(RESULT "")
 
-	if(${LANG} IN_LIST enabled_languages)
+	if(${LANG} IN_LIST ENABLED_LANGUAGES)
 		foreach(flag IN LISTS FLAGS)
 			string(REPLACE - _ flag_available ${flag})
 			check_compiler_flag(${LANG} ${flag} ${flag_available})
