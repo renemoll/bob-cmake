@@ -39,6 +39,8 @@ function(bob_configure_clang_tidy TARGET)
 		set(CLANG_TIDY_OPTIONS
 			"--config-file=${PROJECT_SOURCE_DIR}/.clang-tidy"
 		)
+
+		# TODO: clang-tidy replaces the compiler, so this method does not work for header only targets...
 		set_target_properties(${TARGET}
 			PROPERTIES
 				C_CLANG_TIDY "${CLANG_TIDY_EXE};${CLANG_TIDY_OPTIONS}"

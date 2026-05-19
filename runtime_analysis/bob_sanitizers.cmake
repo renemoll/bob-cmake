@@ -72,11 +72,11 @@ function(bob_configure_sanitizers TARGET)
 
 	string(JOIN "," SANITIZERS ${arg_SANITIZERS})
 	target_compile_options(${TARGET}
-		INTERFACE
+		PRIVATE
 			-fsanitize=${SANITIZERS}
 	)
 	target_link_options(${TARGET}
-		INTERFACE
+		PRIVATE
 			-fsanitize=${SANITIZERS}
 	)
 endfunction()
