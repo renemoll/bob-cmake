@@ -126,6 +126,11 @@ function(bob_generate_coverage_report)
 					-instr-profile="${arg_TARGET}.profdata"
 					$<TARGET_FILE:${arg_RUNNER}>
 					> "${OUTPUT_FOLDER}/report.txt"
+			COMMAND ${LLVM_COV_EXE} export
+					-format=lcov
+					-instr-profile="${arg_TARGET}.profdata"
+					$<TARGET_FILE:${arg_RUNNER}>
+					> "${OUTPUT_FOLDER}/coverage.lcov"
 			WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 			DEPENDS ${arg_RUNNER}
 			COMMENT "Generating coverage report for ${arg_RUNNER}"
@@ -137,6 +142,9 @@ function(bob_generate_coverage_report)
 			COMMAND ${GCOVR_EXE} -r ${PROJECT_SOURCE_DIR}
 					--html-details
 					--output "${OUTPUT_FOLDER}/index.html"
+			COMMAND ${GCOVR_EXE} -r ${PROJECT_SOURCE_DIR}
+					--cobertura-pretty
+					--cobertura "${OUTPUT_FOLDER}/cobertura.xml"
 			COMMAND ${GCOVR_EXE} -r ${PROJECT_SOURCE_DIR}
 			WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 			DEPENDS ${arg_RUNNER}
