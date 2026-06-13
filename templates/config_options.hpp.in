@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2026 René Moll
+ * SPDX-License-Identifier: CC0-1.0
+ */
+
+#include <string_view>
+
+namespace @PROJECT_NAME@::config {
+#cmakedefine01 BOB_COMPILER_CLANG
+#cmakedefine01 BOB_COMPILER_GCC 
+
+static constexpr bool compiler_clang = BOB_COMPILER_CLANG;
+static constexpr bool compiler_gcc = BOB_COMPILER_GCC;
+}
