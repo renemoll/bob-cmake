@@ -17,7 +17,7 @@ include(bob_sanitizers)
 # bob_configure_runtime_analysis(<TARGET>
 #     [ENABLE_ADDRESS_SANITIZER <ON|OFF>]
 #     [ENABLE_LEAK_SANITIZER <ON|OFF>]
-#     [ENABLE_UNDEFINED_BEHAVIOR_SANITIZER <ON|OFF>]
+#     [ENABLE_UNDEFINED_BEHAVIOUR_SANITIZER <ON|OFF>]
 #     [ENABLE_THREAD_SANITIZER <ON|OFF>])
 #
 # Enable and configure runtime analysis tools for the given `<TARGET>`.
