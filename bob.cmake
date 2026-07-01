@@ -86,25 +86,6 @@ endif()
 bob_info("CMAKE_BUILD_TYPE is `${CMAKE_BUILD_TYPE}`, CMAKE_CONFIGURATION_TYPES is `${CMAKE_CONFIGURATION_TYPES}`.")
 
 #
-# Generate headers
-#
-
-if(NOT BOB_USER_VERSION_HEADER)
-	set(BOB_USER_VERSION_HEADER "${CMAKE_CURRENT_LIST_DIR}/templates/version.hpp.in")
-endif()
-bob_info("generating version header from template: ${BOB_USER_VERSION_HEADER}")
-configure_file(${BOB_USER_VERSION_HEADER} include/libecl/version.hpp ESCAPE_QUOTES)
-
-if(NOT BOB_USER_CONFIG_HEADER)
-	set(BOB_USER_CONFIG_HEADER "${CMAKE_CURRENT_LIST_DIR}/templates/config_options.hpp.in")
-endif()
-bob_info("generating config header from template: ${BOB_USER_CONFIG_HEADER}")
-configure_file(${BOB_USER_CONFIG_HEADER} include/libecl/config_options.hpp)
-
-# Add include for generated headers
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
-
-#
 # Includes
 #
 
@@ -203,3 +184,22 @@ function(bob_configure_target TARGET)
 		ENABLE_THREAD_SANITIZER ${ENABLE_THREAD_SANITIZER}
 	)
 endfunction()
+
+#
+# Generate headers
+#
+
+if(NOT BOB_USER_VERSION_HEADER)
+	set(BOB_USER_VERSION_HEADER "${CMAKE_CURRENT_LIST_DIR}/templates/version.hpp.in")
+endif()
+bob_info("generating version header from template: ${BOB_USER_VERSION_HEADER}")
+configure_file(${BOB_USER_VERSION_HEADER} include/libecl/version.hpp ESCAPE_QUOTES)
+
+if(NOT BOB_USER_CONFIG_HEADER)
+	set(BOB_USER_CONFIG_HEADER "${CMAKE_CURRENT_LIST_DIR}/templates/config_options.hpp.in")
+endif()
+bob_info("generating config header from template: ${BOB_USER_CONFIG_HEADER}")
+configure_file(${BOB_USER_CONFIG_HEADER} include/libecl/config_options.hpp)
+
+# Add include for generated headers
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
