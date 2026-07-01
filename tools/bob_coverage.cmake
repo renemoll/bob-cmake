@@ -113,7 +113,7 @@ function(bob_generate_coverage_report)
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_FOLDER}
 			COMMAND ${LLVM_PROFDATA_EXE} merge -sparse "${arg_TARGET}.profraw" -o "${arg_TARGET}.profdata"
 			COMMAND ${LLVM_COV_EXE} show
-					-ignore-filename-regex=".*[/\]tests[/\].*"
+					-ignore-filename-regex=".*[/\]test[/\].*"
 					-show-mcdc
 					-show-line-counts-or-regions
 					-format=html
@@ -121,7 +121,7 @@ function(bob_generate_coverage_report)
 					$<TARGET_FILE:${arg_RUNNER}>
 					> "${OUTPUT_FOLDER}/index.html"
 			COMMAND ${LLVM_COV_EXE} report
-					-ignore-filename-regex=".*[/\]tests[/\].*"
+					-ignore-filename-regex=".*[/\]test[/\].*"
 					-show-mcdc-summary
 					-instr-profile="${arg_TARGET}.profdata"
 					$<TARGET_FILE:${arg_RUNNER}>
