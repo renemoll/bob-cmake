@@ -85,7 +85,7 @@ function(bob_configure_compiler_warnings TARGET)
 			-Wundef								# Warn when undefined macros are used (implicit conversion to 0.)
 			-Wunused							# Warn about any unused parameter/function/variable/etc...
 			-Wmisleading-indentation			# Warn about indentation giving the impression of scope.
-			-Winline							# Warn when desired inlining is not possible.
+			# -Winline							# Warn when desired inlining is not possible. [not very usable with unit-testing]
 			-Wzero-as-null-pointer-constant		# Warn about the use of 0 as nullptr.
 			# Strings related
 			-Wvla								# Warn about variable-length arrays being used.
