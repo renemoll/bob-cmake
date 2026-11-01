@@ -40,6 +40,16 @@ function(bob_configure_clang_tidy TARGET)
 			"--config-file=${PROJECT_SOURCE_DIR}/.clang-tidy"
 		)
 
+		if (CMAKE_CROSSCOMPILING)
+			list(APPEND CLANG_TIDY_OPTIONS
+				"--extra-arg-before=--target=arm-none-eabi"
+				"--extra-arg=--sysroot=${CMAKE_SYSROOT}"
+				"--extra-arg=-stdlib=libstdc++"
+				"--extra-arg=-isystem${armgcc_include_dir}"
+				"--extra-arg=-isystem${armgcc_multilib_include_dir}"
+			)
+		endif()
+
 		# TODO: clang-tidy replaces the compiler, so this method does not work for header only targets...
 		set_target_properties(${TARGET}
 			PROPERTIES
