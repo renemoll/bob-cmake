@@ -11,9 +11,16 @@
 # Options
 #
 
-option(BOB_ADDRESS_SANITIZER   				"Enable address sanitizer" On)
-option(BOB_LEAK_SANITIZER  			    	"Enable leak sanitizer" On)
-option(BOB_UNDEFINED_BEHAVIOUR_SANITIZER	"Enable undefined behaviour sanitizer" On)
+if (CMAKE_CROSSCOMPILING)
+	set(BOB_DEFAULT_SANITIZER_VALUE Off)
+else()
+	set(BOB_DEFAULT_SANITIZER_VALUE On)
+endif()
+option(BOB_DEFAULT_SANITIZER "Enable sanitizers" ${BOB_DEFAULT_SANITIZER_VALUE})
+
+option(BOB_ADDRESS_SANITIZER   				"Enable address sanitizer" ${BOB_DEFAULT_SANITIZER})
+option(BOB_LEAK_SANITIZER  			    	"Enable leak sanitizer" ${BOB_DEFAULT_SANITIZER})
+option(BOB_UNDEFINED_BEHAVIOUR_SANITIZER	"Enable undefined behaviour sanitizer" ${BOB_DEFAULT_SANITIZER})
 # option(BOB_MEMORY_SANITIZER    "Enable memory sanitizer" Off)
 option(BOB_THREAD_SANITIZER    				"Enable thread sanitizer" Off)
 
