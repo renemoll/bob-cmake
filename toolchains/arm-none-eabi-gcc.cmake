@@ -51,6 +51,27 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
+execute_process(
+	COMMAND "${CMAKE_C_COMPILER}" -print-sysroot
+	OUTPUT_VARIABLE CMAKE_SYSROOT
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+execute_process(
+	COMMAND "${CMAKE_C_COMPILER}" ${ARM_API} -print-multi-directory
+	OUTPUT_VARIABLE armgcc_multi_directory
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+execute_process(
+	COMMAND "${CMAKE_C_COMPILER}" -dumpfullversion
+	OUTPUT_VARIABLE armgcc_full_version
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+set(armgcc_include_dir "${CMAKE_SYSROOT}/include/c++/${armgcc_full_version}/")
+set(armgcc_multilib_include_dir "${CMAKE_SYSROOT}/include/c++/${armgcc_full_version}/arm-none-eabi/${armgcc_multi_directory}")
+
 #
 # Tell CMAKE to build libraries when detecting functionality as target executables
 # cannot be executed on the host environment.
